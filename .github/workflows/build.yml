@@ -27,10 +27,19 @@ jobs:
         run: flutter create --platforms=macos .
       - name: Build macOS Application
         run: flutter build macos --release
+
+      - name: Thin Binary to Apple Silicon (arm64) Only
+        run: |
+          cd build/macos/Build/Products/Release/rclone_gui.app/Contents
+          lipo MacOS/rclone_gui -thin arm64 -output MacOS/rclone_gui
+          lipo Frameworks/FlutterMacOS.framework/FlutterMacOS -thin arm64 -output Frameworks/FlutterMacOS.framework/FlutterMacOS
+          lipo Frameworks/App.framework/App -thin arm64 -output Frameworks/App.framework/App
+
       - name: Package Application
         run: |
           cd build/macos/Build/Products/Release/
-          zip -r rclone_gui.zip rclone_gui.app
+          zip -ry rclone_gui.zip rclone_gui.app
+
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v7
         with:
