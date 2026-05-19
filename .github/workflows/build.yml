@@ -11,13 +11,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+        with:
+          repository: 'specter78/rclone-gui'
+          token: ${{ secrets.PRIVATE_REPO_PAT }}
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           cache: true
-      - name: Clone Repo
-        run: gh repo clone specter78/rclone-gui
       - name: Install dependencies
         run: flutter pub get
       - name: Enable macOS Desktop Support
