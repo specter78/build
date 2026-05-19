@@ -1,0 +1,38 @@
+name: Build #2
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          repository: 'specter78/rclone-gui'
+          token: ${{ secrets.PRIVATE_REPO_PAT }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 'latest'
+          cache: 'npm'
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install frontend dependencies
+        run: npm install
+
+      - name: Build Tauri App
+        run: npm run tauri build
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: mac-release-app
+          path: |
+            src-tauri/target/release/bundle/macos/*.app
+            src-tauri/target/release/bundle/dmg/*.dmg
