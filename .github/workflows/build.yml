@@ -16,8 +16,8 @@ jobs:
         with:
           channel: 'stable'
           cache: true
-      - name: Clone
-        run: git clone https://github.com/specter78/rclone-gui.git
+      - name: Clone Repo
+        run: gh repo clone specter78/rclone-gui
       - name: Install dependencies
         run: flutter pub get
       - name: Enable macOS Desktop Support
