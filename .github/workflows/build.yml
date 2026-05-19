@@ -23,6 +23,8 @@ jobs:
         run: flutter pub get
       - name: Enable macOS Desktop Support
         run: flutter config --enable-macos-desktop
+      - name: Create macOS Project Files
+        run: flutter create --platforms=macos .
       - name: Build macOS Application
         run: flutter build macos --release
       - name: Upload Build Artifact
