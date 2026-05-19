@@ -27,8 +27,12 @@ jobs:
         run: flutter create --platforms=macos .
       - name: Build macOS Application
         run: flutter build macos --release
+      - name: Package Application
+        run: |
+          cd build/macos/Build/Products/Release/
+          zip -r rclone_gui.zip rclone_gui.app
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v7
         with:
           name: macOS-Release-App
-          path: build/macos/Build/Products/Release/
+          path: build/macos/Build/Products/Release/rclone_gui.zip
