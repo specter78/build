@@ -1,0 +1,29 @@
+name: Build
+
+on:
+  push:
+  workflow_dispatch: 
+
+jobs:
+  build:
+    name: Build Mac App
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Enable macOS Desktop Support
+        run: flutter config --enable-macos-desktop
+      - name: Build macOS Application
+        run: flutter build macos --release
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: macOS-Release-App
+          path: build/macos/Build/Products/Release/
